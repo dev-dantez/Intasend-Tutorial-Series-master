@@ -1,8 +1,10 @@
-# Wasiliana — Kenyan Identity & Payments Platform
+# Jaribu — Kenyan Developer Sandbox
 
-A full-stack PHP SaaS application that lets users generate realistic Kenyan identity profiles and explore live payment flows — hosted checkout links, M-Pesa STK Push, and wallet management — powered by the [IntaSend PHP SDK](https://github.com/IntaSend/intasend-php).
+A self-hosted PHP tool for developers building payment integrations in Kenya. Generate realistic synthetic identity data, trigger live M-Pesa STK Push requests, create hosted checkout sessions, and inspect wallet balances — all from a single authenticated web interface.
 
-Built as a practical, production-structured reference for developers integrating mobile payments in Kenya.
+The name means *"to test, to try"* in Swahili. That's exactly what this is for.
+
+Built on the [IntaSend PHP SDK](https://github.com/IntaSend/intasend-php) with a production-grade structure — proper auth, CSRF protection, PDO, webhook signature verification — so the patterns you see here translate directly into real applications.
 
 ---
 
