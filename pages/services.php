@@ -45,7 +45,7 @@ function show_field($value, $is_premium, $type = 'text') {
     <!-- Header -->
     <div class="flex justify-between items-center mb-8 relative z-10">
         <?php if (!$is_premium) { ?>
-            <a href="app.php?page=upgrade" class="btn btn-warning gap-2 shadow-lg border-none hover:scale-105 transition-transform no-animation">
+            <a href="/app.php?page=upgrade" class="btn btn-warning gap-2 shadow-lg border-none hover:scale-105 transition-transform no-animation">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 011.397 1.398l-.8 1.6V12a1 1 0 01-.293.707l-1 1a1 1 0 00-.293.707V15a1 1 0 01-1 1h-4a1 1 0 01-1-1v-1.586A1 1 0 019 12V8.404l-.8-1.6a1 1 0 011.397-1.398l1.599.8L15.152 4.677 11 3.016V2a1 1 0 01-1-1z" clip-rule="evenodd" /></svg>
                 Try PRO
             </a>
@@ -137,13 +137,32 @@ function show_field($value, $is_premium, $type = 'text') {
                     </label>
                 </div>
                  <button type="submit" name="generate" class="btn btn-block btn-info bg-cyan-500 hover:bg-cyan-400 border-none text-black font-bold">
-                    Generate New Identity
+                    <?php echo $is_premium ? 'Generate New Identity' : 'Generate Preview'; ?>
                 </button>
             </form>
         </div>
 
         <!-- Profile Details Sections -->
         <div class="space-y-6">
+            
+            <?php if (!$is_premium): ?>
+            <!-- Free-user sticky upgrade banner -->
+            <div style="position:sticky;top:0;z-index:30;background:rgba(14,26,24,0.96);border:1px solid rgba(20,184,166,0.4);border-radius:12px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,0.4);margin-bottom:4px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#14b8a6" stroke-width="2" style="flex-shrink:0;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                    <span style="color:#f0fdf9;font-size:.88rem;font-weight:500;">
+                        <strong style="color:#14b8a6;">Email, phone, NINO, full address, card number, CVV &amp; professional CV</strong>
+                        <span style="color:rgba(240,253,249,0.5);"> are locked on the free tier.</span>
+                    </span>
+                </div>
+                <a href="/app.php?page=upgrade"
+                   style="flex-shrink:0;background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:#fff;font-weight:700;font-size:.82rem;padding:8px 20px;border-radius:8px;text-decoration:none;white-space:nowrap;letter-spacing:-.01em;box-shadow:0 2px 12px rgba(16,185,129,0.3);">
+                    Unlock for KES 500 →
+                </a>
+            </div>
+            <?php endif; ?>
             
             <!-- Personal Profile -->
             <div>
@@ -177,7 +196,7 @@ function show_field($value, $is_premium, $type = 'text') {
                          <?php if ($is_premium) { ?>
                             <div class="input-matrix p-3 rounded tracking-widest"><?php echo $p['nino']; ?></div>
                         <?php } else { ?>
-                             <div class="relative group cursor-pointer" onclick="window.location='app.php?page=upgrade'">
+                             <div class="relative group cursor-pointer" onclick="window.location='/app.php?page=upgrade'">
                                 <div class="input-matrix p-3 rounded blur-sm select-none opacity-50">AB 12 34 56 C</div>
                                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/60 text-xs text-white">UNLOCK</div>
                             </div>
