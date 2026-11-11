@@ -195,12 +195,6 @@ User clicks "Upgrade"
 
 ---
 
-## License
-
-MIT — free to use, modify, and deploy.
-
----
-
 ## Roadmap
 
 Ordered by ease of implementation. Items at the top can be shipped in an afternoon; items at the bottom are multi-day efforts.
@@ -255,3 +249,11 @@ Ordered by ease of implementation. Items at the top can be shipped in an afterno
 ---
 
 > **Suggested first three:** copy-to-clipboard, saved profiles, and the REST API. Together they make the platform genuinely useful for a developer's daily workflow rather than just a demo.
+
+---
+
+## License
+
+MIT — free to use, modify, and deploy.
+
+---
