@@ -1,22 +1,26 @@
-# Environment files
+# ── Secrets ──────────────────────────────────────
 .env
 credentials.php
 
-# Vendor
+# ── Dependencies ─────────────────────────────────
 /vendor/
 
-# IDE
+# ── Logs ─────────────────────────────────────────
+*.log
+/logs/
+
+# ── IDE & editors ────────────────────────────────
 .vscode/
 .idea/
+*.code-workspace
+.qodo/
 
-# Logs
-*.log
-logs/
-
-# OS
+# ── OS files ─────────────────────────────────────
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Temp files
+# ── Temp / cache ─────────────────────────────────
 *.tmp
 *.cache
+/tmp/

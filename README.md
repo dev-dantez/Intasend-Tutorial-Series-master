@@ -1,163 +1,200 @@
-# IntaSend PHP Payment Integration - Upgraded
+# Wasiliana — Kenyan Identity & Payments Platform
 
-A secure, production-ready PHP application demonstrating IntaSend payment gateway integration with proper authentication, database persistence, and security best practices.
+A full-stack PHP SaaS application that lets users generate realistic Kenyan identity profiles and explore live payment flows — hosted checkout links, M-Pesa STK Push, and wallet management — powered by the [IntaSend PHP SDK](https://github.com/IntaSend/intasend-php).
 
-## Features
+Built as a practical, production-structured reference for developers integrating mobile payments in Kenya.
 
-### Payment Methods
-- **Checkout Links** - Hosted payment page redirects
-- **M-Pesa STK Push** - Direct mobile payment prompts
-- **Wallet Management** - View balances and transactions
+---
 
-### Security Features
-- ✅ Environment-based configuration (.env)
-- ✅ Secure session management with CSRF protection
-- ✅ User authentication and authorization
-- ✅ Input validation and sanitization
-- ✅ Password hashing (bcrypt)
-- ✅ SQL injection prevention (PDO prepared statements)
-- ✅ Activity logging
-- ✅ Payment verification with signatures
+## What it does
 
-### Application Features
-- User registration and login
-- Premium subscription system
-- Payment history tracking
-- Database persistence for all transactions
-- Proper error handling
-- Responsive UI with DaisyUI/Tailwind
+| Feature | Description |
+|---|---|
+| **ID Generator** | Generates realistic Kenyan (and global) identity profiles — names, national IDs, phone numbers, addresses, credit cards, work history. Premium-gated. |
+| **Hosted Checkout** | Creates a secure, branded payment page via the IntaSend Checkout API. Customer is redirected to complete payment. |
+| **M-Pesa STK Push** | Sends a payment prompt directly to any Kenyan mobile number. Customer approves on their phone. |
+| **Wallet Viewer** | Displays IntaSend wallet balances and transaction history in real time. |
+| **Transaction Log** | Full audit trail of every payment initiated — stored in MySQL, filterable by status and type. |
+| **Premium Subscription** | One-time KES 500 payment unlocks the ID Generator. Handled through the same checkout flow. |
+| **Admin Dashboard** | Manage users, view payments, toggle premium status, and monitor platform activity. |
 
-## Installation
+---
+
+## Tech stack
+
+- **PHP 7.4+** — no framework, structured MVC-style
+- **MySQL 5.7+** — PDO with prepared statements throughout
+- **IntaSend PHP SDK** — Checkout, STK Push, Wallet, Transfer
+- **Tailwind CSS + DaisyUI** — utility-first styling
+- **Guzzle** — HTTP client used by the SDK
+
+---
+
+## Project structure
+
+```
+├── admin/                  # Admin-only pages (dashboard, users, settings)
+├── assets/
+│   └── css/style.css       # Custom design system (Wasiliana brand)
+├── auth/                   # Login, register, logout
+├── config/
+│   ├── config.php          # Loads .env, exposes Config::get()
+│   ├── database.php        # PDO singleton
+│   └── session.php         # SessionManager with CSRF support
+├── database/
+│   └── schema.sql          # Full MySQL schema — run once to set up
+├── includes/
+│   └── functions.php       # Shared helpers (validation, logging, URLs)
+├── middleware/
+│   ├── auth.php            # require_auth(), get_logged_in_user()
+│   └── admin.php           # require_admin()
+├── models/
+│   ├── Payment.php         # Payment CRUD + analytics queries
+│   ├── User.php            # User CRUD + password verification
+│   └── Settings.php        # Key-value site settings
+├── pages/                  # Page partials included by app.php
+│   ├── home.php            # Dashboard (stats, tools, activity feed)
+│   ├── checkout_new.php    # Hosted checkout form
+│   ├── stk_new.php         # STK Push form
+│   ├── wallet.php          # Wallet viewer
+│   ├── services.php        # ID Generator (premium)
+│   ├── upgrade_new.php     # Premium upgrade flow
+│   ├── payment_history.php # Transaction log
+│   └── profile.php         # Account settings
+├── services/
+│   ├── PaymentService.php  # Wraps IntaSend SDK — checkout, STK, verify
+│   └── MockDataService.php # Generates fake identity profile data
+├── webhook/
+│   └── callback.php        # Payment callback handler (signature verified)
+├── app.php                 # Main authenticated router
+├── index.php               # Redirects to app.php
+├── .env.example            # Environment variable template
+└── composer.json
+```
+
+---
+
+## Quick start
 
 ### Prerequisites
-- PHP 7.4 or higher
-- MySQL 5.7 or higher
+
+- PHP 7.4+
+- MySQL 5.7+
 - Composer
-- IntaSend account with API credentials
+- Laragon (or any local server — Apache/Nginx)
+- An [IntaSend account](https://intasend.com) with API keys
 
-### Setup Steps
+### 1. Install dependencies
 
-1. **Clone and Install Dependencies**
 ```bash
 composer install
 ```
 
-2. **Database Setup**
-```bash
-mysql -u root -p < database/schema.sql
-```
+### 2. Configure environment
 
-3. **Environment Configuration**
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and add your credentials:
+Edit `.env`:
+
 ```env
-INTASEND_PUBLISHABLE_KEY=your_publishable_key
-INTASEND_SECRET_KEY=your_secret_key
-DB_NAME=intasend_demo
+# IntaSend — use sandbox keys for development
+INTASEND_PUBLISHABLE_KEY=ISPubKey_test_xxxxxxxxxxxxxxxxxxxx
+INTASEND_SECRET_KEY=ISSecretKey_test_xxxxxxxxxxxxxxxxxxxx
+
+# Database
+DB_HOST=localhost
+DB_NAME=wasiliana
 DB_USER=root
-DB_PASS=your_password
+DB_PASS=
+
+# App
+APP_ENV=development
+APP_URL=http://wasiliana.test
+APP_NAME=Wasiliana
 ```
 
-4. **Set Permissions**
+> **Sandbox vs Live:** The SDK auto-detects the environment from your key prefix (`ISPubKey_test_` → sandbox, `ISPubKey_live_` → production). Always use sandbox keys during development.
+
+### 3. Create the database
+
 ```bash
-chmod 755 logs/
+mysql -u root < database/schema.sql
 ```
 
-5. **Access Application**
-- Navigate to `http://localhost/your-project/auth/register.php`
-- Create an account
-- Start using the payment features
+Or using Laragon's MySQL path:
 
-## Project Structure
-
-```
-├── auth/                  # Authentication pages
-│   ├── login.php
-│   ├── register.php
-│   └── logout.php
-├── config/               # Configuration files
-│   ├── config.php
-│   ├── database.php
-│   └── session.php
-├── database/             # Database schemas
-│   └── schema.sql
-├── includes/             # Helper functions
-│   └── functions.php
-├── middleware/           # Authentication middleware
-│   └── auth.php
-├── models/              # Data models
-│   ├── User.php
-│   └── Payment.php
-├── pages/               # Application pages
-│   ├── checkout_new.php
-│   ├── stk_new.php
-│   ├── upgrade_new.php
-│   ├── payment_history.php
-│   └── profile.php
-├── services/            # Business logic
-│   └── PaymentService.php
-├── webhook/             # Payment callbacks
-│   └── callback.php
-├── .env.example         # Environment template
-├── .gitignore          # Git ignore rules
-└── app.php             # Main application
+```bash
+"C:\laragon\bin\mysql\mysql-8.0.40-winx64\bin\mysql.exe" -u root < database/schema.sql
 ```
 
-## Security Improvements
+### 4. Access the app
 
-### Fixed Vulnerabilities
-1. **Exposed Credentials** - Moved to .env file (gitignored)
-2. **Payment Verification** - Added signature validation
-3. **Session Security** - Implemented secure session handling
-4. **Input Validation** - Server-side validation for all inputs
-5. **Authentication** - Full user authentication system
-6. **CSRF Protection** - Token-based CSRF prevention
-7. **Error Handling** - Production-safe error messages
-8. **Database Persistence** - All payments tracked in database
+If using Laragon, the virtual host is auto-created:
 
-## Usage
+```
+http://Intasend-Tutorial-Series-master.test
+```
 
-### Making a Payment
-1. Login to your account
-2. Navigate to "STK Push" or "Checkout"
-3. Enter payment details
-4. Complete payment via M-Pesa or hosted page
-5. View confirmation and payment history
+Register an account at `/auth/register.php`, then log in.
 
-### Upgrading to Premium
-1. Go to "Mock Platform" page
-2. Click "Try PRO"
-3. Complete payment (500 KES)
-4. Access unlocked premium features
+### 5. Create an admin account (optional)
 
-## API Integration
+After registering, run this SQL to promote a user:
 
-The application uses IntaSend PHP SDK. Key services:
+```sql
+UPDATE users SET is_admin = 1 WHERE email = 'your@email.com';
+```
 
-- `PaymentService` - Handles all payment operations
-- `Checkout` - Creates hosted payment sessions
-- `Collection` - Initiates STK push requests
-- `Wallet` - Retrieves wallet information
+Then visit `/admin/dashboard.php`.
 
-## Development
+---
 
-### Environment Modes
-- `development` - Shows detailed errors
-- `production` - Hides errors, logs to file
+## Payment flow
 
-### Logging
-Activity logs stored in `logs/activity.log`
+```
+User clicks "Upgrade"
+  → pages/upgrade_new.php
+  → PaymentService::createCheckout()
+  → IntaSend Checkout API
+  → User redirected to hosted payment page
+  → User pays
+  → IntaSend POSTs to /webhook/callback.php
+  → Signature verified
+  → User premium status updated in DB
+```
 
-### Database Migrations
-Run `database/schema.sql` to create/update tables
+---
+
+## Environment variables
+
+| Key | Description |
+|---|---|
+| `INTASEND_PUBLISHABLE_KEY` | Public key from IntaSend dashboard |
+| `INTASEND_SECRET_KEY` | Secret key — never expose client-side |
+| `DB_HOST` | Database host (default: `localhost`) |
+| `DB_NAME` | Database name |
+| `DB_USER` | Database user |
+| `DB_PASS` | Database password |
+| `APP_ENV` | `development` or `production` |
+| `APP_URL` | Full base URL of the app |
+| `SESSION_LIFETIME` | Session TTL in seconds (default: 7200) |
+
+---
+
+## Security notes
+
+- Passwords hashed with `bcrypt` via `password_hash()`
+- All DB queries use PDO prepared statements — no raw interpolation
+- CSRF tokens on every POST form
+- Session regeneration on login
+- Webhook callbacks verify IntaSend's HMAC signature
+- `.env` and `credentials.php` are gitignored — never committed
+- Input sanitized with `htmlspecialchars` before output
+
+---
 
 ## License
 
-MIT License - Free to use and modify
-
-## Support
-
-For IntaSend API documentation: https://developers.intasend.com/
+MIT — free to use, modify, and deploy.

@@ -1,5 +1,5 @@
 <?php
-require_once 'MockDataService.php';
+require_once __DIR__ . '/../services/MockDataService.php';
 
 // CSRF protection for POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -77,48 +77,29 @@ function show_field($value, $is_premium, $type = 'text') {
             
             <?php if ($is_premium): ?>
                 <div class="flex gap-3 mb-4 flex-wrap justify-center">
-                    <a href="download_identity_package.php" class="btn btn-primary gap-2">
+                    <span class="btn btn-primary gap-2 opacity-50 cursor-not-allowed" title="Export coming soon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
-                        Download Complete Package (ZIP)
-                    </a>
-                    <?php if ($p['include_cv'] ?? false): ?>
-                        <a href="generate_cv.php" target="_blank" class="btn btn-success gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            Download CV Only
-                        </a>
-                    <?php endif; ?>
+                        Export Profile (Coming Soon)
+                    </span>
                 </div>
                 
-                <!-- Package Contents Info -->
+                <!-- Profile features note -->
                 <div class="bg-black/30 border border-cyan-500/30 rounded-lg p-4 mb-4 max-w-2xl mx-auto">
                     <div class="text-cyan-400 text-sm font-semibold mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                         </svg>
-                        Package Includes:
+                        Premium Profile Includes:
                     </div>
                     <div class="grid grid-cols-2 gap-2 text-xs text-white/70">
-                        <div class="flex items-center gap-1">
-                            <span class="text-green-500">✓</span> Identity Details (TXT)
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <span class="text-green-500">✓</span> Profile Photo (SVG)
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <span class="text-green-500">✓</span> Data Export (JSON)
-                        </div>
-                        <?php if ($p['include_cv'] ?? false): ?>
-                        <div class="flex items-center gap-1">
-                            <span class="text-green-500">✓</span> Professional CV (PDF)
-                        </div>
-                        <?php endif; ?>
-                        <div class="flex items-center gap-1">
-                            <span class="text-green-500">✓</span> README File
-                        </div>
+                        <div class="flex items-center gap-1"><span class="text-green-500">✓</span> Full identity details</div>
+                        <div class="flex items-center gap-1"><span class="text-green-500">✓</span> National ID / NINO</div>
+                        <div class="flex items-center gap-1"><span class="text-green-500">✓</span> Financial data</div>
+                        <div class="flex items-center gap-1"><span class="text-green-500">✓</span> Address & coordinates</div>
+                        <div class="flex items-center gap-1"><span class="text-green-500">✓</span> Work experience & CV</div>
+                        <div class="flex items-center gap-1"><span class="text-green-500">✓</span> Skills & education</div>
                     </div>
                 </div>
             <?php else: ?>

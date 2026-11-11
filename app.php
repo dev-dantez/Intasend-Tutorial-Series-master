@@ -36,10 +36,10 @@ try {
             include_once('pages/stk_new.php');
             break;
         case 'wallet':
-            include_once('wallet.php');
+            include_once('pages/wallet.php');
             break;
         case 'services':
-            include_once('services.php');
+            include_once('pages/services.php');
             break;
         case 'upgrade':
             include_once('pages/upgrade_new.php');
