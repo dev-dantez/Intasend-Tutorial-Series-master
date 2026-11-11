@@ -1,0 +1,22 @@
+# Environment files
+.env
+credentials.php
+
+# Vendor
+/vendor/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.cache

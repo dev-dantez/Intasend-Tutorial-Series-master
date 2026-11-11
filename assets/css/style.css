@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --font-main: 'Inter', sans-serif;
+    --glass-bg: rgba(18, 23, 28, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.07);
+    --primary-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* ── Base ── */
+body {
+    font-family: var(--font-main);
+    background-image:
+        radial-gradient(ellipse at 10% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+        radial-gradient(ellipse at 85% 75%, rgba(5, 150, 105, 0.07) 0%, transparent 40%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+/* ── Glassmorphism ── */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.glass-nav {
+    background: rgba(13, 17, 21, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Gradient Text ── */
+.gradient-text {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+/* ── Animations ── */
+.animate-fade-in {
+    animation: fadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(12px);
+}
+@keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Buttons ── */
+.btn-primary-gradient {
+    background: var(--primary-gradient);
+    border: none;
+    color: white;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    transition: filter 0.2s, transform 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.btn-primary-gradient::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.08), transparent);
+    pointer-events: none;
+}
+.btn-primary-gradient:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+}
+.btn-primary-gradient:active { transform: translateY(0); }
+
+/* ── Cards ── */
+.card-premium {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    overflow: hidden;
+}
+.card-premium:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+/* ── Inputs ── */
+.input-premium {
+    background-color: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+}
+.input-premium:focus {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    outline: none;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.18); }
+
+/* ── Matrix / Hacker theme (kept for compatibility) ── */
+.bg-matrix {
+    background-color: #050505;
+    background-image:
+        linear-gradient(rgba(0, 255, 70, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 70, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: #e0e0e0;
+    font-family: 'Courier New', Courier, monospace;
+}
+.text-cyan  { color: #00e5ff; }
+.border-cyan { border-color: #00e5ff; }
+.shadow-cyan { box-shadow: 0 0 10px rgba(0, 229, 255, 0.3); }
+.card-hacker { background: rgba(0,0,0,0.8); border: 1px solid #333; }
+.input-matrix {
+    background: #0a0a0a;
+    border: 1px solid #333;
+    color: #fff;
+    font-family: monospace;
+}
+.input-matrix:focus {
+    border-color: #00e5ff;
+    box-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+    outline: none;
+}
+
+/* ── Misc ── */
+.hover-scale { transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+.hover-scale:hover { transform: scale(1.02); }
